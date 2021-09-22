@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>对象模型</title>
+</head>
+<body>
+<script type="text/javascript">
+	/*面向对象的方法*/
+	// function Person(name,age){
+	// 	this.name=name;
+	// 	this.age=age;
+	// }
+	// Person.prototype.sayName = function() {
+	// 	// body...
+	// 	this.name;
+	// }
+	 /* es6的方法 */
+	 class Person{
+	 	constructor(name,age){
+	 		this.name=name;
+	 		this.age=age;
+	 	}
+	 	sayName(){
+	 		console.log(this.name);
+	 	}
+	 }
+    /* 使用extends关键字可以实现继承，之后可以自动拥有父类的属性和方法 */
+    class Student extends  Person{
+       constructor(name,age,skill){
+       	super(name,age);  //super指的是Person
+       	this.skill=skill;
+       }
+       //子类下的函数：这种写法是错误的
+       // saySkill(){
+       //    console.log(this.skill)
+       // } 
+       saySkill(){
+       	this.sayName();
+       }
+    }
+    var zhang=new Person("zhangsan",18);
+    // /* 父类不能使用子类的方法，子类可以使用父类的方法 */
+    zhang.sayName();
+    // zhang.saySkill();
+
+    var s=new Student("lisi",17,"html");
+    s.saySkill();
+
+    //静态方法
+    class Father{
+    	static testMethod(){
+    		return 'hello';
+    	}
+    }
+    //通过类名直接调用
+   let hello = Father.testMethod(); // 'hello'
+   console.log(hello);
+
+   var Child = new Father();
+   // Child.testMethod()  // Uncaught TypeError: Child.testMethod is not a function //这是因为Father中的testMethod方法是静态方法(有static关键字),不会被实例化出来的Child继承
+   
+
+   var a=100;
+   function a(){
+   	console.log("hello");
+   }
+   // a();  // Uncaught TypeError: a is not a function
+
+   var b= 100;
+   var b = function(){
+    console.log("hello world")
+   }
+   b();  //hello world
+
+   var c = 100;
+   function bar(){
+    console.log("1:"+c)  //undefined
+    if(!c){
+        var c = 20;
+    }
+    console.log("2:"+c) //20
+  }
+  bar();
+  console.log("3:"+c) //100
+  //Tip：{}里面为一个作用域
+
+  var d = 4;
+  var d = function(){
+  	console.log("hello");
+  }
+ console.log(d);  //4
+ d();
+ //拆分：
+ var f = function(){
+    console.log("f")
+}
+ var f;  
+ console.log("f:"+f);   //变量f输出undefined,不会覆盖函数,输出函数
+ f = 20;
+ console.log("f:"+f);   //变量a赋值后,将函数覆盖,输出20
+ // f(); //f is not a function
+</script>
+</body>
+</html>
